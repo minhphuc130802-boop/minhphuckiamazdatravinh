@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showroom Kia Mazda Trà Vinh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html { scroll-behavior: smooth; }
+        .car-card:hover { transform: translateY(-5px); transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 tracking-wide">KIA MAZDA TRÀ VINH</h1>
+                <p class="text-xs text-red-600 font-medium tracking-widest">TRAO GIÁ TRỊ THẬT – ĐỒNG HÀNH MỌI HÀNH TRÌNH</p>
+            </div>
+            <nav class="hidden md:flex space-x-6 font-medium text-sm tracking-wider">
+                <a href="#home" class="hover:text-red-600 transition">TRANG CHỦ</a>
+                <a href="#showroom" class="hover:text-red-600 transition">SẢN PHẨM</a>
+                <a href="#calculator" class="hover:text-red-600 transition">TẠM TÍNH GIÁ</a>
+                <a href="#quote" class="hover:text-red-600 transition">NHẬN BÁO GIÁ</a>
+                <a href="#admin-section" class="hover:text-slate-500 transition text-slate-400"><i class="fa-solid fa-lock"></i> DATA</a>
+            </nav>
+            <div class="flex items-center space-x-3">
+                <a href="tel:0963191373" class="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:bg-red-700 transition flex items-center gap-2">
+                    <i class="fa-solid fa-phone-flip animate-pulse"></i> 0963.191.373
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="relative bg-slate-900 text-white py-24 md:py-32 overflow-hidden">
+        <div class="absolute inset-0 opacity-40 bg-cover bg-center" style="background-image: url('https://i.postimg.cc/Gh3RL9zk/611203747-846013068278591-2227757176773701097-n.jpg');"></div>
+        <div class="relative container mx-auto px-4 text-center">
+            <span class="bg-red-600 text-white text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase">Chào mừng quý khách</span>
+            <h2 class="text-4xl md:text-6xl font-extrabold mt-4 mb-6 tracking-tight">Showroom Kia Mazda Trà Vinh</h2>
+            <p class="text-lg md:text-xl max-w-2xl mx-auto text-slate-300 font-light italic">"Trao giá trị thật – Đồng hành mọi hành trình."</p>
+            <div class="mt-8 flex justify-center gap-4">
+                <a href="#showroom" class="bg-white text-slate-950 font-bold px-6 py-3 rounded shadow hover:bg-slate-100 transition">Xem dòng xe</a>
+                <a href="#calculator" class="bg-red-600 text-white font-bold px-6 py-3 rounded shadow hover:bg-red-700 transition">Tính giá lăn bánh</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="showroom" class="container mx-auto px-4 py-16">
+        <div class="text-center mb-12">
+            <h3 class="text-3xl font-bold text-slate-900 tracking-tight">DANH SÁCH DÒNG XE ĐANG CUNG CẤP</h3>
+            <div class="w-20 h-1 bg-red-600 mx-auto mt-3"></div>
+            <p class="text-slate-500 mt-2 text-sm">Bấm vào từng xe để xem thông số kỹ thuật chi tiết</p>
+            
+            <div class="flex justify-center gap-4 mt-6">
+                <button onclick="filterCars('all')" class="px-5 py-2 rounded-full border font-medium text-sm transition bg-slate-900 text-white" id="btn-all">TẤT CẢ</button>
+                <button onclick="filterCars('kia')" class="px-5 py-2 rounded-full border font-medium text-sm transition bg-white text-slate-700 hover:bg-slate-100" id="btn-kia">KIA</button>
+                <button onclick="filterCars('mazda')" class="px-5 py-2 rounded-full border font-medium text-sm transition bg-white text-slate-700 hover:bg-slate-100" id="btn-mazda">MAZDA</button>
+            </div>
+        </div>
+
+        <div id="car-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            </div>
+    </section>
+
+    <div id="car-detail-modal" class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 hidden transition-all duration-300">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full overflow-hidden relative border border-slate-100 animate-fadeIn">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-2xl z-10 bg-white/80 w-8 h-8 rounded-full flex items-center justify-center shadow">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img id="modal-img" src="" alt="" class="w-full h-56 object-cover">
+            <div class="p-6">
+                <span id="modal-brand" class="text-xs font-bold uppercase text-red-600 tracking-wider">KIA</span>
+                <h4 id="modal-name" class="text-2xl font-bold text-slate-900 mt-0.5">Tên xe</h4>
+                <p id="modal-price" class="text-xl font-bold text-red-600 mt-1 mb-4">0 đ</p>
+                
+                <h5 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-3 border-b pb-1">Thông số kỹ thuật</h5>
+                <div class="grid grid-cols-2 gap-4 text-sm mb-6">
+                    <div class="bg-slate-50 p-3 rounded">
+                        <span class="block text-xs text-slate-500 font-medium"><i class="fa-solid fa-engine text-red-500 mr-1"></i> Động cơ</span>
+                        <span id="modal-engine" class="font-bold text-slate-800 block mt-0.5">-</span>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded">
+                        <span class="block text-xs text-slate-500 font-medium"><i class="fa-solid fa-gear text-red-500 mr-1"></i> Hộp số</span>
+                        <span id="modal-gear" class="font-bold text-slate-800 block mt-0.5">-</span>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded">
+                        <span class="block text-xs text-slate-500 font-medium"><i class="fa-solid fa-chair text-red-500 mr-1"></i> Số chỗ ngồi</span>
+                        <span id="modal-seats" class="font-bold text-slate-800 block mt-0.5">-</span>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded">
+                        <span class="block text-xs text-slate-500 font-medium"><i class="fa-solid fa-star text-red-500 mr-1"></i> Phân khúc</span>
+                        <span id="modal-segment" class="font-bold text-slate-800 block mt-0.5">Đô thị</span>
+                    </div>
+                </div>
+
+                <div class="bg-red-50/50 border border-red-100 p-4 rounded-lg mb-6">
+                    <span class="block text-xs font-bold text-red-700 tracking-wide uppercase mb-1"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Tính năng nổi bật</span>
+                    <p id="modal-features" class="text-sm text-slate-700 leading-relaxed">-</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <button id="modal-calc-btn" class="bg-slate-900 text-white text-sm font-bold py-3 rounded hover:bg-slate-800 transition">Tính giá lăn bánh</button>
+                    <button id="modal-quote-btn" class="bg-red-600 text-white text-sm font-bold py-3 rounded hover:bg-red-700 transition">Nhận ưu đãi ngay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="calculator" class="bg-slate-100 py-16">
+        <div class="container mx-auto px-4 max-w-3xl">
+            <div class="bg-white rounded-xl shadow-xl p-8 border border-slate-200">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-slate-900">TẠM TÍNH GIÁ LĂN BÁNH</h3>
+                    <p class="text-slate-500 text-sm mt-1">Dự toán chi phí chính xác tại Trà Vinh, Hà Nội, TP.HCM</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Chọn dòng xe muốn mua</label>
+                        <select id="calc-car" class="w-full border border-slate-300 rounded p-3 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-500" onchange="updateCalcPrice()"></select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Khu vực đăng ký biển số</label>
+                        <select id="calc-location" class="w-full border border-slate-300 rounded p-3 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-red-500" onchange="calculateRegistration()">
+                            <option value="travinh">Tỉnh Trà Vinh</option>
+                            <option value="hanoi">Thành phố Hà Nội</option>
+                            <option value="hcm">Thành phố Hồ Chí Minh</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-8 border-t border-slate-200 pt-6 space-y-3">
+                    <div class="flex justify-between text-slate-600">
+                        <span>Giá niêm yết (tạm tính):</span>
+                        <span id="res-base" class="font-medium text-slate-900">0 đ</span>
+                    </div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>Lệ phí trước bạ:</span>
+                        <span id="res-tax" class="font-medium text-slate-900">0 đ</span>
+                    </div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>Phí biển số & Đăng kiểm & Đường bộ:</span>
+                        <span id="res-fee" class="font-medium text-slate-900">0 đ</span>
+                    </div>
+                    <hr class="border-dashed">
+                    <div class="flex justify-between text-lg font-bold text-slate-900">
+                        <span>TỔNG CHI PHÍ LĂN BÁNH:</span>
+                        <span id="res-total" class="text-xl text-red-600">0 đ</span>
+                    </div>
+                </div>
+                
+                <div class="mt-6 text-center">
+                    <a href="#quote" class="inline-block bg-slate-900 text-white font-bold px-8 py-3 rounded hover:bg-slate-800 transition">Nhận Ưu Đãi Giảm Giá Thực Tế</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="quote" class="container mx-auto px-4 py-16 max-w-2xl">
+        <div class="bg-white rounded-xl shadow-xl p-8 border border-slate-200">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-slate-900">ĐĂNG KÝ NHẬN BÁO GIÁ CHI TIẾT</h3>
+                <p class="text-slate-500 text-sm mt-1">Thông tin khuyến mãi riêng từ đại lý sẽ được gửi cho quý khách</p>
+            </div>
+            
+            <form id="quoteForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Họ và tên <span class="text-red-500">*</span></label>
+                    <input type="text" id="form-name" required placeholder="Ví dụ: Nguyễn Văn A" class="w-full border border-slate-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Số điện thoại / Zalo <span class="text-red-500">*</span></label>
+                    <input type="tel" id="form-phone" required placeholder="Ví dụ: 0963xxxxxx" class="w-full border border-slate-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Nhu cầu dòng xe cần nhận báo giá <span class="text-red-500">*</span></label>
+                    <select id="form-car" required class="w-full border border-slate-300 rounded p-3 bg-white focus:outline-none focus:ring-2 focus:ring-red-500"></select>
+                </div>
+                <div>
+                    <button type="submit" class="w-full bg-red-600 text-white font-bold py-3.5 rounded shadow-lg hover:bg-red-700 transition tracking-wider">GỬI YÊU CẦU BÁO GIÁ</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="admin-section" class="hidden bg-slate-900 text-white py-12 border-t border-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h4 class="text-xl font-bold tracking-tight text-yellow-500"><i class="fa-solid fa-database"></i> HỆ THỐNG THU THẬP DATA KHÁCH HÀNG</h4>
+                    <p class="text-xs text-slate-400">Xem trực tiếp data tại đây (Đồng thời tự động đồng bộ sang Google Sheets).</p>
+                </div>
+                <button onclick="clearData()" class="bg-red-600 text-xs px-3 py-1.5 rounded hover:bg-red-700 transition">Xóa tất cả data</button>
+            </div>
+            
+            <div class="overflow-x-auto bg-slate-800 rounded-lg p-4">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-700 text-slate-400">
+                            <th class="p-3">Thời gian</th>
+                            <th class="p-3">Họ Tên</th>
+                            <th class="p-3">Số Điện Thoại</th>
+                            <th class="p-3">Dòng xe quan tâm</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lead-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-950 text-slate-400 text-xs py-8 text-center border-t border-slate-900">
+        <p class="font-bold text-sm text-white mb-2">SHOWROOM KIA MAZDA TRÀ VINH</p>
+        <p class="mb-1">Hotline/Zalo: 0963.191.373</p>
+        <p class="mb-4">Địa chỉ: Đường Võ Nguyên Giáp, Khóm 1, Nguyệt Hóa, Vĩnh Long, Vietnam</p>
+        <p>&copy; 2026 KIA & MAZDA TRÀ VINH.</p>
+    </footer>
+
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col space-y-3">
+        <a href="https://zalo.me/0963191373" target="_blank" class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition text-lg">
+            <i class="fa-solid fa-comment-sms"></i>
+        </a>
+        <a href="https://m.me/1128337267028918" target="_blank" class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition text-lg">
+            <i class="fa-brands fa-facebook-messenger"></i>
+        </a>
+        <a href="tel:0963191373" class="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition text-lg animate-bounce">
+            <i class="fa-solid fa-phone"></i>
+        </a>
+    </div>
+
+    <script>
+        // ĐƯỜNG LINK GOOGLE APP SCRIPT CỦA BẠN (Dán link web app của bạn vào đây)
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXy3n9Zzj8X9v1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7/exec"; 
+
+        // CƠ SỞ DỮ LIỆU XE TOÀN DIỆN: ĐÃ THÊM THÔNG SỐ KỸ THUẬT CHI TIẾT
+        const CAR_DATABASE = [
+            // KIA Dòng Xe
+            { id: "k1", brand: "kia", name: "Kia New Morning", price: 439000000, img: "https://i.postimg.cc/xTthjRF8/New-morning-1.png", engine: "Kappa 1.25L MPI", gear: "Số tự động 4 cấp / 5MT", seats: "5 chỗ", features: "Thiết kế nhỏ gọn cá tính, tiết kiệm nhiên liệu tối ưu, trang bị màn hình giải trí đa phương tiện sắc nét, di chuyển cực linh hoạt trong phố." },
+            { id: "k2", brand: "kia", name: "Kia Soluto", price: 345000000, img: "https://i.postimg.cc/YSqd4dpF/Soluto-1.png", engine: "Kappa 1.4L Dual CVVT", gear: "Tự động 4 cấp / Số sàn 5 cấp", seats: "5 chỗ", features: "Khoang nội thất siêu rộng rãi hàng đầu phân khúc B, độ ngả lưng ghế thoải mái, cốp xe cực rộng, có tích hợp kết nối KIA Link tiện lợi." },
+            { id: "k3", brand: "kia", name: "Kia K3", price: 584000000, img: "https://i.postimg.cc/HLphwpt3/K3-1.png", engine: "Gamma 1.6L MPI", gear: "Tự động 6 cấp / Số sàn 6 cấp", seats: "5 chỗ", features: "Diện mạo Sedan thể thao thời thượng, sạc không dây cao cấp, sưởi và làm mát ghế lái, cửa sổ trời toàn cảnh mang lại cảm giác sang trọng." },
+            { id: "k4", brand: "kia", name: "Kia K5", price: 769000000, img: "https://i.postimg.cc/tTnwTB52/K5-1.png", engine: "Động cơ 2.0 MPI", gear: "Tự động 6 cấp / 8 cấp cao cấp", seats: "5 chỗ", features: "Đẳng cấp Sedan hạng D chuẩn Fastback thể thao châu Âu, màn hình đôi uốn cong panorama, âm thanh vòm BOSE 12 loa đỉnh cao, màn hình HUD kính lái." },
+            { id: "k5", brand: "kia", name: "Kia New Sonet", price: 489000000, img: "https://i.postimg.cc/HLRbpzjw/Sonet-1.png", engine: "Smartstream 1.5LG", gear: "Tự động vô cấp CVT", seats: "5 chỗ", features: "Vua doanh số SUV đô thị cỡ nhỏ gầm cao, đèn LED hầm hố rực rỡ, trang bị cửa sổ trời, màn hình trung tâm lớn 10.25 inch, hệ thống cảm biến áp suất lốp." },
+            { id: "k6", brand: "kia", name: "Kia New Seltos", price: 579000000, img: "https://i.postimg.cc/NM7J5FSf/tai-xuong.png", engine: "Smartstream 1.5L Turbo / 1.5 MPI", gear: "Ly hợp kép 7 cấp số mượt mà / CVT", seats: "5 chỗ", features: "Thiết kế cơ bắp SUV mạnh mẽ đầy lôi cuốn, trang bị gói an toàn thông minh ADAS tân tiến, phanh tay điện tử kèm Auto Hold, làm mát ghế siêu mát." },
+            { id: "k7", brand: "kia", name: "Kia Carens", price: 579000000, img: "https://i.postimg.cc/8cSJcPWN/Carens-1.png", engine: "Xăng 1.5L", gear: "Hộp số tự động vô cấp CVT", seats: "7 chỗ (hoặc 6 chỗ)", features: "SUV đa dụng gia đình thế hệ mới, điều hòa tự động âm trần, hệ thống đèn viền nội thất Moodlight đổi màu phong phú, hàng ghế sau gập điện một chạm." },
+            { id: "k8", brand: "kia", name: "Kia Sportage", price: 819000000, img: "https://i.postimg.cc/QMcjtgq1/Sportage-1.jpg", engine: "2.0L Xăng / 1.6L Turbo / 2.0L Dầu", gear: "Tự động 6 cấp / 7 cấp DCT / 8 cấp", seats: "5 chỗ", features: "Ngôn ngữ thiết kế tương lai ấn tượng, màn hình cong panorama siêu đỉnh, cần số điện tử dạng núm xoay đẳng cấp, hệ dẫn động 4 bánh toàn thời gian AWD." },
+            { id: "k9", brand: "kia", name: "Kia New Sorento", price: 1199000000, img: "https://i.postimg.cc/HsH2rT9x/Sorento-1.png", engine: "Smartstream D2.2 (Dầu) / G2.5 (Xăng)", gear: "Tự động 6 cấp / Ly hợp kép 8 cấp", seats: "6 - 7 chỗ", features: "SUV bề thế cao cấp mẫu mực, khung gầm thế hệ mới siêu cứng cáp, hỗ trợ hiển thị điểm mù trên cụm đồng hồ màn hình BVM, hệ thống kiểm soát hành trình thích ứng." },
+            { id: "k10", brand: "kia", name: "Kia New Carnival", price: 1299000000, img: "https://i.postimg.cc/qBtR2KQc/new-carnival-hev-astra-blue-1-1.png", engine: "Smartstream 2.2D / 1.6 Turbo HEV", gear: "Tự động 8 cấp êm ái", seats: "7 - 8 chỗ siêu rộng", features: "Đỉnh cao xe chuyên cơ mặt đất sang trọng, cửa lùa điện thông minh chống kẹt, hàng ghế VIP chỉnh điện thương gia tích hợp đệm đỡ chân mượt mà, tủ lạnh mini." },
+            
+            // MAZDA Dòng Xe
+            { id: "m1", brand: "mazda", name: "Mazda2", price: 418000000, img: "https://i.postimg.cc/65fyQXYF/Mazda2.jpg", engine: "SkyActiv-G 1.5L", gear: "Tự động 6 cấp", seats: "5 chỗ", features: "Thiết kế nghệ thuật KODO quý phái tinh tế, vận hành cực bốc với chế độ thể thao Sport Mode, hệ thống kiểm soát gia tốc nâng cao GVC Plus bám đường tốt." },
+            { id: "m2", brand: "mazda", name: "Mazda3", price: 569000000, img: "https://i.postimg.cc/Zq4r7H0r/M3.png", engine: "SkyActiv-G 1.5L thế hệ mới", gear: "Tự động 6 cấp", seats: "5 chỗ", features: "Tuyệt tác thiết kế đẹp nhất thế giới, cách âm khoang lái như xe hạng sang, tích hợp màn hình HUD lớn, trang bị gói công nghệ an toàn cao cấp i-Activsense." },
+            { id: "m3", brand: "mazda", name: "Mazda CX-3", price: 549000000, img: "https://i.postimg.cc/3RCxwMTn/CX-3-xp.png", engine: "SkyActiv-G 1.5L phun xăng trực tiếp", gear: "Tự động 6 cấp", seats: "5 chỗ", features: "Dòng SUV nhập khẩu gầm cao đô thị thời thượng cá tính, trang bị phanh tay điện tử hiện đại, cảnh báo chệch làn đường, cảnh báo điểm mù thông minh." },
+            { id: "m4", brand: "mazda", name: "Mazda CX-30", price: 749000000, img: "https://i.postimg.cc/pr44bT64/cx-30-xp.png", engine: "SkyActiv-G 2.0L mạnh mẽ", gear: "Tự động 6 cấp", seats: "5 chỗ", features: "SUV phong cách Coupé thời thượng đẳng cấp châu Âu, nội thất da nappa cao cấp, cốp đóng mở bằng điện tiện lợi, gói an toàn i-Activsense toàn diện." },
+            { id: "m5", brand: "mazda", name: "Mazda CX-5", price: 699000000, img: "https://i.postimg.cc/mrH8fNHt/CX-5.jpg", engine: "SkyActiv-G 2.0L / 2.5L", gear: "Tự động 6", seats: "5 chỗ rộng rãi", features: "Ông vua doanh số phân khúc C-SUV tại Việt Nam, trang bị kính đôi cách âm cao cấp, âm thanh giải trí đỉnh cao 10 loa BOSE, camera 360 độ siêu nét quanh xe." },
+            { id: "m6", brand: "mazda", name: "Mazda CX-8", price: 949000000, img: "https://i.postimg.cc/XJ3yLkNQ/cx-8-xp.png", engine: "SkyActiv-G 2.5L hút khí tự nhiên", gear: "Tự động 6 cấp", seats: "7 chỗ đích thực", features: "SUV flagship 7 chỗ cỡ lớn đẳng cấp đỉnh cao, trang bị hệ thống điều hòa độc lập 3 vùng mát lạnh sâu, rèm che nắng cửa sau, nội thất bọc da Nappa quý tộc." }
+        ];
+
+        function formatMoney(amount) {
+            return amount.toLocaleString('vi-VN') + " đ";
+        }
+
+        // Tạo danh sách xe lên Showroom
+        function renderShowroom(filter = "all") {
+            const grid = document.getElementById("car-grid");
+            grid.innerHTML = "";
+            const filteredCars = filter === "all" ? CAR_DATABASE : CAR_DATABASE.filter(c => c.brand === filter);
+            
+            filteredCars.forEach(car => {
+                const card = document.createElement("div");
+                card.className = "bg-white rounded-lg shadow border border-slate-200 overflow-hidden car-card cursor-pointer";
+                // Bấm vào bất kỳ vị trí nào trên Card đều hiện popup thông số
+                card.setAttribute("onclick", `openModal('${car.id}')`);
+                card.innerHTML = `
+                    <img src="${car.img}" alt="${car.name}" class="w-full h-48 object-cover">
+                    <div class="p-5">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold uppercase ${car.brand === 'kia' ? 'text-blue-600' : 'text-slate-800'}">${car.brand}</span>
+                            <span class="text-xs text-slate-400 font-medium"><i class="fa-solid fa-eye"></i> Xem thông số</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-900 mt-1">${car.name}</h4>
+                        <p class="text-slate-500 text-xs mt-1">Giá niêm yết toàn quốc</p>
+                        <p class="text-lg font-bold text-red-600 mt-2">${formatMoney(car.price)}</p>
+                        <div class="mt-4 grid grid-cols-2 gap-2" onclick="event.stopPropagation();">
+                            <a href="#calculator" onclick="selectCarForCalc('${car.id}')" class="text-center bg-slate-100 text-slate-800 text-xs font-bold py-2.5 rounded hover:bg-slate-200 transition">Tính giá lăn bánh</a>
+                            <a href="#quote" onclick="selectCarForForm('${car.name}')" class="text-center bg-red-600 text-white text-xs font-bold py-2.5 rounded hover:bg-red-700 transition">Nhận báo giá</a>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // BỘ HÀM XỬ LÝ POPUP/MODAL THÔNG SỐ KỸ THUẬT
+        function openModal(carId) {
+            const car = CAR_DATABASE.find(c => c.id === carId);
+            if (!car) return;
+
+            document.getElementById("modal-img").src = car.img;
+            document.getElementById("modal-brand").textContent = car.brand;
+            document.getElementById("modal-name").textContent = car.name;
+            document.getElementById("modal-price").textContent = formatMoney(car.price);
+            document.getElementById("modal-engine").textContent = car.engine;
+            document.getElementById("modal-gear").textContent = car.gear;
+            document.getElementById("modal-seats").textContent = car.seats;
+            document.getElementById("modal-features").textContent = car.features;
+
+            // Gán hành động cho các nút trong popup
+            document.getElementById("modal-calc-btn").onclick = function() {
+                closeModal();
+                window.location.href = "#calculator";
+                selectCarForCalc(car.id);
+            };
+            document.getElementById("modal-quote-btn").onclick = function() {
+                closeModal();
+                window.location.href = "#quote";
+                selectCarForForm(car.name);
+            };
+
+            // Hiện modal ra màn hình
+            const modal = document.getElementById("car-detail-modal");
+            modal.classList.remove("hidden");
+            document.body.style.overflow = "hidden"; // Khóa cuộn trang nền khi mở popup
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("car-detail-modal");
+            modal.classList.add("hidden");
+            document.body.style.overflow = "auto"; // Mở lại cuộn trang
+        }
+
+        // Đóng modal khi bấm trượt ra vùng màu đen phía ngoài bảng thông số
+        window.onclick = function(event) {
+            const modal = document.getElementById("car-detail-modal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+
+        function filterCars(brand) {
+            renderShowroom(brand);
+            ['all', 'kia', 'mazda'].forEach(b => {
+                const btn = document.getElementById(`btn-${b}`);
+                if (b === brand) {
+                    btn.className = "px-5 py-2 rounded-full border font-medium text-sm transition bg-slate-900 text-white";
+                } else {
+                    btn.className = "px-5 py-2 rounded-full border font-medium text-sm transition bg-white text-slate-700 hover:bg-slate-100";
+                }
+            });
+        }
+
+        function setupSelectors() {
+            const calcSelect = document.getElementById("calc-car");
+            const formSelect = document.getElementById("form-car");
+            
+            CAR_DATABASE.forEach(car => {
+                let opt1 = document.createElement("option");
+                opt1.value = car.id;
+                opt1.textContent = `${car.name} (${formatMoney(car.price)})`;
+                calcSelect.appendChild(opt1);
+
+                let opt2 = document.createElement("option");
+                opt2.value = car.name;
+                opt2.textContent = car.name;
+                formSelect.appendChild(opt2);
+            });
+        }
+
+        function selectCarForCalc(carId) {
+            document.getElementById("calc-car").value = carId;
+            updateCalcPrice();
+        }
+        function selectCarForForm(carName) {
+            document.getElementById("form-car").value = carName;
+        }
+
+        function updateCalcPrice() {
+            calculateRegistration();
+        }
+
+        function calculateRegistration() {
+            const carId = document.getElementById("calc-car").value;
+            const location = document.getElementById("calc-location").value;
+            const car = CAR_DATABASE.find(c => c.id === carId);
+            
+            if (!car) return;
+
+            let basePrice = car.price;
+            let taxRate = 0.10;
+            let registrationFee = 1000000;
+
+            if (location === "hanoi") {
+                taxRate = 0.12;
+                registrationFee = 20000000;
+            } else if (location === "hcm") {
+                taxRate = 0.10;
+                registrationFee = 20000000;
+            } else if (location === "travinh") {
+                taxRate = 0.10;
+                registrationFee = 1000000;
+            }
+
+            let tax = basePrice * taxRate;
+            let staticFees = 3500000 + registrationFee; 
+            let total = basePrice + tax + staticFees;
+
+            document.getElementById("res-base").textContent = formatMoney(basePrice);
+            document.getElementById("res-tax").textContent = formatMoney(tax) + ` (${taxRate*100}%)`;
+            document.getElementById("res-fee").textContent = formatMoney(staticFees);
+            document.getElementById("res-total").textContent = formatMoney(total);
+        }
+
+        // ĐỒNG BỘ DỮ LIỆU SANG GOOGLE SHEETS
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById("form-name").value;
+            const phone = document.getElementById("form-phone").value;
+            const car = document.getElementById("form-car").value;
+            const date = new Date().toLocaleString('vi-VN');
+
+            const newLead = { date, name, phone, car };
+            let leads = JSON.parse(localStorage.getItem("customer_leads")) || [];
+            leads.unshift(newLead);
+            localStorage.setItem("customer_leads", JSON.stringify(leads));
+            loadLeadsTable();
+
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = "ĐANG GỬI YÊU CẦU...";
+            submitBtn.disabled = true;
+
+            const formData = new URLSearchParams();
+            formData.append("name", name);
+            formData.append("phone", phone);
+            formData.append("car", car);
+
+            fetch(GOOGLE_SCRIPT_URL + "?" + formData.toString(), {
+                method: "POST"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.result === "success") {
+                    alert(`Cảm ơn anh/chị ${name}! Kia Mazda Trà Vinh đã tiếp nhận yêu cầu báo giá xe ${car}. Chúng tôi sẽ liên hệ trong ít phút.`);
+                } else {
+                    alert(`Yêu cầu của anh/chị ${name} đã được ghi nhận thành công!`);
+                }
+            })
+            .catch(error => {
+                alert(`Yêu cầu của anh/chị ${name} đã được ghi nhận thành công!`);
+                console.error("Lỗi đồng bộ Google Sheets:", error);
+            })
+            .finally(() => {
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+                document.getElementById("quoteForm").reset();
+            });
+        }
+
+        function loadLeadsTable() {
+            const tableBody = document.getElementById("lead-table-body");
+            tableBody.innerHTML = "";
+            let leads = JSON.parse(localStorage.getItem("customer_leads")) || [];
+
+            if(leads.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="4" class="p-3 text-center text-slate-500">Chưa có dữ liệu khách hàng nào đăng ký.</td></tr>`;
+                return;
+            }
+
+            leads.forEach(lead => {
+                let row = document.createElement("tr");
+                row.className = "border-b border-slate-700 hover:bg-slate-700/50";
+                row.innerHTML = `
+                    <td class="p-3 font-mono text-xs text-slate-400">${lead.date}</td>
+                    <td class="p-3 font-semibold text-white">${lead.name}</td>
+                    <td class="p-3 text-yellow-400 font-bold">${lead.phone}</td>
+                    <td class="p-3 text-emerald-400">${lead.car}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function clearData() {
+            if(confirm("Bạn có chắc chắn muốn xóa toàn bộ data khách hàng đã thu thập không?")) {
+                localStorage.removeItem("customer_leads");
+                loadLeadsTable();
+            }
+        }
+
+        window.onload = function() {
+            renderShowroom();
+            setupSelectors();
+            updateCalcPrice();
+            loadLeadsTable();
+        };
+    </script>
+</body>
+</html>
